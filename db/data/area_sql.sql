@@ -1,6 +1,6 @@
 SET AUTOCOMMIT=0;
 DELETE area;
-INSERT INTO area(area_code, parent_code, name) VALUES
+INSERT INTO areas(area_code, parent_code, name) VALUES
 (110000, NULL, "北京市"),
 (110101, 110000, "东城区"),
 (110102, 110000, "西城区"),

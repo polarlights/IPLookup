@@ -24,10 +24,10 @@ namespace :iplookup do
       province_sql = File.open("/tmp/province_country.sql", "w")
       sql << "SET AUTOCOMMIT=0;\n"
       province_sql << "SET AUTOCOMMIT=0;\n"
-      sql << "DELETE area;\n"
-      province_sql << "DELETE province_country;\n"
-      sql << "INSERT INTO area(area_code, parent_code, name) VALUES\n"
-      province_sql << "INSERT INTO province_country(domain, area_code) VALUES\n"
+      sql << "DELETE areas;\n"
+      province_sql << "DELETE country_areas;\n"
+      sql << "INSERT INTO areas(area_code, parent_code, name) VALUES\n"
+      province_sql << "INSERT INTO country_areas(domain, area_code) VALUES\n"
 
       doc = Nokogiri::HTML(open(source_url))
       doc.css(".xilan_con table tr").each do |tr|
