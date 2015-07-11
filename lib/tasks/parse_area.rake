@@ -19,10 +19,15 @@ namespace :iplookup do
       skip_area_names = [shixiaqu, xian, zhixiaxian]
       city_area_code, province_code = %w(NULL NULL)
 
+
       sql = File.open("/tmp/area_sql.sql", "w")
+      province_sql = File.open("/tmp/province_country.sql", "w")
       sql << "SET AUTOCOMMIT=0;\n"
+      province_sql << "SET AUTOCOMMIT=0;\n"
       sql << "DELETE area;\n"
+      province_sql << "DELETE province_country;\n"
       sql << "INSERT INTO area(area_code, parent_code, name) VALUES\n"
+      province_sql << "INSERT INTO province_country(domain, area_code) VALUES\n"
 
       doc = Nokogiri::HTML(open(source_url))
       doc.css(".xilan_con table tr").each do |tr|
@@ -34,6 +39,7 @@ namespace :iplookup do
         if area_code.match(regexp_province)
           parent_code = 'NULL'
           city_area_code = province_code = area_code
+          province_sql << "(\"CN\", \"#{area_code}\"),\n"
         elsif area_code.match(regexp_city)
           parent_code = province_code
           city_area_code = area_code
@@ -45,9 +51,12 @@ namespace :iplookup do
 
       sql << "(710000, NULL, \"台湾省\"),\n"
       sql << "(810000, NULL, \"香港特别行政区\"),\n"
-      sql << "(820000, NULL, \"澳门特别行政区\")\n"
+      sql << "(820000, NULL, \"澳门特别行政区\");\n"
+      province_sql << "(\"CN\", \"710000\"),\n(\"CN\", \"810000\"),\n(\"CN\", \"820000\");\n"
       sql << "COMMIT;\n"
+      province_sql << "COMMIT;\n"
       sql.close
+      province_sql.close
     end #end of task
   end
 end
