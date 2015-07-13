@@ -1,5 +1,5 @@
 SET AUTOCOMMIT=0;
-DELETE country_areas;
+DELETE FROM country_areas;
 INSERT INTO country_areas(domain, area_code) VALUES
 ("CN", "110000"),
 ("CN", "120000"),

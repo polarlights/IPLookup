@@ -11,7 +11,7 @@ namespace :iplookup do
       doc = Nokogiri::HTML(open(source_url))
       doc.css("table.pb_table tbody tr").each do |tr|
        domain, name_en, name_cn = tr.css("td:not(:first)").map(&:text)
-       sql << "Country.create(domain: \"#{domain}\", name:cn \"#{name_cn}\", name_en: \"#{name_en}\");\n"
+       sql << "Country.create(domain: \"#{domain}\", name_cn: \"#{name_cn}\", name_en: \"#{name_en}\");\n"
       end
       sql << "end\n"
       sql.close

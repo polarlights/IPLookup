@@ -1,5 +1,5 @@
 SET AUTOCOMMIT=0;
-DELETE area;
+DELETE FROM areas;
 INSERT INTO areas(area_code, parent_code, name) VALUES
 (110000, NULL, "北京市"),
 (110101, 110000, "东城区"),
@@ -3224,5 +3224,5 @@ INSERT INTO areas(area_code, parent_code, name) VALUES
 (659004, 650000, "五家渠市"),
 (710000, NULL, "台湾省"),
 (810000, NULL, "香港特别行政区"),
-(820000, NULL, "澳门特别行政区")
+(820000, NULL, "澳门特别行政区");
 COMMIT;

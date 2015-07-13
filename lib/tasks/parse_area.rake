@@ -11,12 +11,11 @@ namespace :iplookup do
         return
       end
 
-      regexp_province = /[1-9]{2}0{4}/
-      regexp_city = /[1-9]{2}\d[1-9]{1}0{2}/
+      regexp_province = /[1-9]\d0{4}/
+      regexp_city = /[1-9]\d{3}0{2}/
       shixiaqu = "市辖区"
       xian = "县"
-      zhixiaxian = "自治区直辖县级行政区划"
-      skip_area_names = [shixiaqu, xian, zhixiaxian]
+      skip_area_names = [shixiaqu, xian]
       city_area_code, province_code = %w(NULL NULL)
 
 
@@ -24,8 +23,8 @@ namespace :iplookup do
       province_sql = File.open("/tmp/province_country.sql", "w")
       sql << "SET AUTOCOMMIT=0;\n"
       province_sql << "SET AUTOCOMMIT=0;\n"
-      sql << "DELETE areas;\n"
-      province_sql << "DELETE country_areas;\n"
+      sql << "DELETE FROM areas;\n"
+      province_sql << "DELETE FROM country_areas;\n"
       sql << "INSERT INTO areas(area_code, parent_code, name) VALUES\n"
       province_sql << "INSERT INTO country_areas(domain, area_code) VALUES\n"
 
@@ -34,7 +33,10 @@ namespace :iplookup do
         tds = tr.css("td p span")
         area_code = tds[0].text.strip
         area_name = tds[1].text.strip
-        city_area_code = province_code if zhixiaxian == area_name
+        if area_name.match(/直辖县级行政区划/)
+          city_area_code = province_code
+          next
+        end
         next if skip_area_names.include? area_name
         if area_code.match(regexp_province)
           parent_code = 'NULL'

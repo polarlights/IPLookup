@@ -7,9 +7,7 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
-
-gem 'sqlite3'
-
+gem 'mysql2'
 
 
 # To use ActiveModel has_secure_password
