@@ -9,4 +9,12 @@ class Ipcode < ActiveRecord::Base
   def ip_end_str
     ip_end.pack("L").unpack("C4").reverse.join(".")
   end
+
+  def ip=(ip)
+    @_ip = ip
+  end
+
+  def ip
+    @_ip
+  end
 end

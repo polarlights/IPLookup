@@ -24,7 +24,11 @@ module Iplookup
     config.active_record.raise_in_transactional_callbacks = true
 
     # Auto load paths
-    #config.autoload_paths << Rails.root.join("app/api")
-    #config.eager_load_paths += %W( #{config.root}/lib/exception_notifier  )
+    config.paths.add File.join("app", "apis"), glob: File.join("**", "*.rb")
+    config.autoload_paths += Dir[Rails.root.join("app", "apis", "*")]
+
+    config.middleware.use(Rack::Config) do |env|
+      env['api.tilt.root'] = Rails.root.join "app", "views", "api"
+    end
   end
 end

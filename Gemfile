@@ -9,6 +9,8 @@ gem 'spring', :group => :development
 
 gem 'mysql2'
 
+gem 'grape'
+gem 'grape-rabl'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
